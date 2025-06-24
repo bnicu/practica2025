@@ -26,8 +26,6 @@ This tutorial project teaches you how to build a complete blog application with:
 git clone <your-repo-url>
 cd practica2025
 
-# Start with Day 1 (runs on port 8000)
-cd day1
 docker compose up -d --build
 
 # Access your application
@@ -166,7 +164,7 @@ After completing all 5 days:
 
 ## 🔧 Development Commands
 
-### Docker Commands (run from any day folder)
+### Docker Commands (run from project folder)
 ```bash
 # Start services
 docker compose up -d
@@ -206,12 +204,10 @@ php artisan make:livewire ComponentName
 
 ### Common Issues
 
-1. **Port conflicts**: Each day uses different ports (8000, 8002-8005). If you need to change them, edit the docker-compose.yml in the specific day folder
-2. **Permission issues**: Run `sudo chown -R $USER:$USER .` from the specific day folder
+1. **Port conflicts**: If you need to change them, edit the docker-compose.yml in the folder
+2. **Permission issues**: Run `sudo chown -R $USER:$USER .` from the folder
 3. **Cache issues**: Run `php artisan optimize:clear` inside the container for the specific day
-4. **Database connection**: Check .env file settings in the specific day folder
-5. **Wrong day environment**: Make sure you're in the correct day folder when running commands
-6. **Multiple environments**: Each day has its own database (laravel_blog_day1, laravel_blog_day2, etc.)
+4. **Database connection**: Check .env file settings in the folder
 
 ### Getting Help
 - Check individual day README files
