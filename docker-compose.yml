@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-blog-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - laravel-blog
+    depends_on:
+      - db
+
+  webserver:
+    image: nginx:alpine
+    container_name: laravel-blog-webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laravel-blog
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: laravel-blog-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel_blog
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_PASSWORD: user_password
+      MYSQL_USER: laravel_user
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel-blog
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel-blog-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    networks:
+      - laravel-blog
+    depends_on:
+      - db
+
+networks:
+  laravel-blog:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
