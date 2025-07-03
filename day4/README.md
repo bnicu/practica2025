@@ -252,7 +252,7 @@ class PostForm extends Component
     <!-- Header -->
     <div class="flex justify-between items-center">
         <h1 class="text-2xl font-bold text-gray-900">Manage Posts</h1>
-        <button wire:click="createPost" 
+        <button wire:click="createPost"
                 class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Create New Post
         </button>
@@ -261,13 +261,13 @@ class PostForm extends Component
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-4">
         <div class="flex-1">
-            <input wire:model.live.debounce.300ms="search" 
-                   type="text" 
-                   placeholder="Search posts..." 
+            <input wire:model.live.debounce.300ms="search"
+                   type="text"
+                   placeholder="Search posts..."
                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        
-        <select wire:model.live="filter" 
+
+        <select wire:model.live="filter"
                 class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="all">All Posts</option>
             <option value="published">Published</option>
@@ -331,19 +331,19 @@ class PostForm extends Component
                             {{ $post->created_at->format('M j, Y') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                            <a href="{{ route('posts.show', $post) }}" 
+                            <a href="{{ route('posts.show', $post) }}"
                                target="_blank"
                                class="text-blue-600 hover:text-blue-900">View</a>
-                            
-                            <button wire:click="editPost({{ $post->id }})" 
+
+                            <button wire:click="editPost({{ $post->id }})"
                                     class="text-indigo-600 hover:text-indigo-900">Edit</button>
-                            
-                            <button wire:click="togglePublished({{ $post->id }})" 
+
+                            <button wire:click="togglePublished({{ $post->id }})"
                                     class="text-{{ $post->is_published ? 'yellow' : 'green' }}-600 hover:text-{{ $post->is_published ? 'yellow' : 'green' }}-900">
                                 {{ $post->is_published ? 'Unpublish' : 'Publish' }}
                             </button>
-                            
-                            <button wire:click="deletePost({{ $post->id }})" 
+
+                            <button wire:click="deletePost({{ $post->id }})"
                                     wire:confirm="Are you sure you want to delete this post?"
                                     class="text-red-600 hover:text-red-900">Delete</button>
                         </td>
@@ -368,7 +368,7 @@ class PostForm extends Component
 
     <!-- Modal Form -->
     @if($showForm)
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" 
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
              wire:click="closeForm">
             <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white"
                  wire:click.stop>
@@ -382,7 +382,7 @@ class PostForm extends Component
                         </svg>
                     </button>
                 </div>
-                
+
                 @livewire('admin.post-form', ['post' => $editingPost], key($editingPost?->id ?? 'create'))
             </div>
         </div>
@@ -395,7 +395,7 @@ class PostForm extends Component
         $wire.showForm = false;
         $wire.$refresh();
     });
-    
+
     $wire.on('close-form', () => {
         $wire.showForm = false;
     });
@@ -410,8 +410,8 @@ class PostForm extends Component
     <!-- Title -->
     <div>
         <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-        <input wire:model.live="title" 
-               type="text" 
+        <input wire:model.live="title"
+               type="text"
                id="title"
                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
         @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -421,11 +421,11 @@ class PostForm extends Component
     <div>
         <label for="slug" class="block text-sm font-medium text-gray-700">Slug</label>
         <div class="mt-1 flex rounded-md shadow-sm">
-            <input wire:model="slug" 
-                   type="text" 
+            <input wire:model="slug"
+                   type="text"
                    id="slug"
                    class="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            <button type="button" 
+            <button type="button"
                     wire:click="generateSlug"
                     class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 bg-gray-50 text-gray-500 rounded-r-md">
                 Generate
@@ -437,8 +437,8 @@ class PostForm extends Component
     <!-- Excerpt -->
     <div>
         <label for="excerpt" class="block text-sm font-medium text-gray-700">Excerpt</label>
-        <textarea wire:model="excerpt" 
-                  id="excerpt" 
+        <textarea wire:model="excerpt"
+                  id="excerpt"
                   rows="3"
                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Brief description of the post..."></textarea>
@@ -448,8 +448,8 @@ class PostForm extends Component
     <!-- Content -->
     <div>
         <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-        <textarea wire:model="content" 
-                  id="content" 
+        <textarea wire:model="content"
+                  id="content"
                   rows="10"
                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Write your post content here..."></textarea>
@@ -459,8 +459,8 @@ class PostForm extends Component
     <!-- Featured Image -->
     <div>
         <label for="featured_image" class="block text-sm font-medium text-gray-700">Featured Image URL</label>
-        <input wire:model="featured_image" 
-               type="url" 
+        <input wire:model="featured_image"
+               type="url"
                id="featured_image"
                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                placeholder="https://example.com/image.jpg">
@@ -469,8 +469,8 @@ class PostForm extends Component
 
     <!-- Published Status -->
     <div class="flex items-center">
-        <input wire:model="is_published" 
-               type="checkbox" 
+        <input wire:model="is_published"
+               type="checkbox"
                id="is_published"
                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
         <label for="is_published" class="ml-2 block text-sm text-gray-900">
@@ -480,12 +480,12 @@ class PostForm extends Component
 
     <!-- Form Actions -->
     <div class="flex justify-end space-x-3 pt-6 border-t">
-        <button type="button" 
+        <button type="button"
                 wire:click="$dispatch('close-form')"
                 class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
             Cancel
         </button>
-        <button type="submit" 
+        <button type="submit"
                 class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
             {{ $post ? 'Update Post' : 'Create Post' }}
         </button>
@@ -534,11 +534,11 @@ class BlogPostCard extends Component
 ```php
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
     @if($post->featured_image)
-        <img src="{{ $post->featured_image }}" 
-             alt="{{ $post->title }}" 
+        <img src="{{ $post->featured_image }}"
+             alt="{{ $post->title }}"
              class="w-full h-48 object-cover">
     @endif
-    
+
     <div class="p-6">
         <!-- Meta Information -->
         <div class="flex items-center text-sm text-gray-500 mb-2">
@@ -553,15 +553,15 @@ class BlogPostCard extends Component
                 </span>
             @endif
         </div>
-        
+
         <!-- Title -->
         <h2 class="text-xl font-semibold text-gray-900 mb-3">
-            <a href="{{ route('posts.show', $post) }}" 
+            <a href="{{ route('posts.show', $post) }}"
                class="hover:text-blue-600 transition-colors">
                 {{ $post->title }}
             </a>
         </h2>
-        
+
         <!-- Excerpt/Content -->
         <div class="text-gray-600 mb-4">
             @if($showFullContent && $post->content)
@@ -574,36 +574,36 @@ class BlogPostCard extends Component
                 <p>{{ Str::limit(strip_tags($post->content), 120) }}</p>
             @endif
         </div>
-        
+
         <!-- Actions -->
         <div class="flex items-center justify-between">
             <div class="flex space-x-4">
-                <a href="{{ route('posts.show', $post) }}" 
+                <a href="{{ route('posts.show', $post) }}"
                    class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
                     Read More →
                 </a>
-                
+
                 @if($post->content && !$showFullContent)
-                    <button wire:click="toggleContent" 
+                    <button wire:click="toggleContent"
                             class="text-gray-600 hover:text-gray-800 font-medium transition-colors">
                         Quick Preview
                     </button>
                 @elseif($showFullContent)
-                    <button wire:click="toggleContent" 
+                    <button wire:click="toggleContent"
                             class="text-gray-600 hover:text-gray-800 font-medium transition-colors">
                         Show Less
                     </button>
                 @endif
             </div>
-            
+
             <!-- Comments Count -->
             <div class="flex items-center text-sm text-gray-500">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                     </path>
                 </svg>
-                {{ $post->approvedComments->count() }} 
+                {{ $post->approvedComments->count() }}
                 {{ Str::plural('comment', $post->approvedComments->count()) }}
             </div>
         </div>
@@ -622,7 +622,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-    
+
     Route::get('/admin/posts', function () {
         return view('admin.posts.index');
     })->name('admin.posts.index');
@@ -651,7 +651,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
                         <div class="text-gray-600">Total Posts</div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-center">
                         <div class="text-3xl font-bold text-green-600">
@@ -660,7 +660,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
                         <div class="text-gray-600">Published</div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-center">
                         <div class="text-3xl font-bold text-yellow-600">
@@ -669,7 +669,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
                         <div class="text-gray-600">Pending Comments</div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-center">
                         <div class="text-3xl font-bold text-purple-600">
@@ -685,15 +685,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
                 <div class="p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
                     <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('admin.posts.index') }}" 
+                        <a href="{{ route('admin.posts.index') }}"
                            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
                             Manage Posts
                         </a>
-                        <a href="{{ route('admin.comments.index') }}" 
+                        <a href="{{ route('admin.comments.index') }}"
                            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
                             Manage Comments
                         </a>
-                        <a href="{{ route('home') }}" 
+                        <a href="{{ route('home') }}"
                            class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
                             View Blog
                         </a>
@@ -752,8 +752,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 # Clear caches
 php artisan optimize:clear
 
-# Test Livewire components
-php artisan livewire:list
+# Test Livewire components availability in routes / web.php
+php artisan route:list
 ```
 
 ### 2. Manual Testing
