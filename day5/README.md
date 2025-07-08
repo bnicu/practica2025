@@ -72,7 +72,7 @@ class CommentManager extends Component
     public function approveComment(Comment $comment)
     {
         $comment->update(['is_approved' => !$comment->is_approved]);
-        
+
         $status = $comment->is_approved ? 'approved' : 'unapproved';
         session()->flash('success', "Comment {$status} successfully.");
     }
@@ -156,7 +156,7 @@ class CommentSection extends Component
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        
+
         $this->showCommentForm = !$this->showCommentForm;
         $this->resetValidation();
     }
@@ -181,7 +181,7 @@ class CommentSection extends Component
         $this->showCommentForm = false;
 
         session()->flash('success', 'Comment submitted successfully! It will appear after approval.');
-        
+
         // Refresh the post with comments
         $this->post->refresh();
         $this->post->load(['approvedComments' => function ($query) {
@@ -290,7 +290,7 @@ class CommentItem extends Component
 
         $this->comment->delete();
         session()->flash('success', 'Comment deleted successfully.');
-        
+
         // Refresh parent component
         $this->dispatch('comment-deleted');
     }
@@ -326,13 +326,13 @@ class CommentItem extends Component
     <!-- Filters -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-            <input wire:model.live.debounce.300ms="search" 
-                   type="text" 
-                   placeholder="Search comments or authors..." 
+            <input wire:model.live.debounce.300ms="search"
+                   type="text"
+                   placeholder="Search comments or authors..."
                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        
-        <select wire:model.live="filter" 
+
+        <select wire:model.live="filter"
                 class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="all">All Comments</option>
             <option value="approved">Approved</option>
@@ -340,7 +340,7 @@ class CommentItem extends Component
             <option value="replies">Replies Only</option>
         </select>
 
-        <select wire:model.live="postFilter" 
+        <select wire:model.live="postFilter"
                 class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="">All Posts</option>
             @foreach($posts as $post)
@@ -381,8 +381,8 @@ class CommentItem extends Component
 
                     <div class="mb-3">
                         <div class="text-sm text-gray-600 mb-2">
-                            On post: 
-                            <a href="{{ route('posts.show', $comment->post) }}" 
+                            On post:
+                            <a href="{{ route('posts.show', $comment->post) }}"
                                target="_blank"
                                class="text-blue-600 hover:text-blue-800">
                                 {{ $comment->post->title }}
@@ -395,19 +395,19 @@ class CommentItem extends Component
 
                     <div class="flex items-center justify-between">
                         <div class="flex space-x-3">
-                            <button wire:click="approveComment({{ $comment->id }})" 
+                            <button wire:click="approveComment({{ $comment->id }})"
                                     class="text-{{ $comment->is_approved ? 'yellow' : 'green' }}-600 hover:text-{{ $comment->is_approved ? 'yellow' : 'green' }}-800 text-sm">
                                 {{ $comment->is_approved ? 'Unapprove' : 'Approve' }}
                             </button>
-                            
-                            <a href="{{ route('posts.show', $comment->post) }}#comment-{{ $comment->id }}" 
+
+                            <a href="{{ route('posts.show', $comment->post) }}#comment-{{ $comment->id }}"
                                target="_blank"
                                class="text-blue-600 hover:text-blue-800 text-sm">
                                 View in Context
                             </a>
                         </div>
 
-                        <button wire:click="deleteComment({{ $comment->id }})" 
+                        <button wire:click="deleteComment({{ $comment->id }})"
                                 wire:confirm="Are you sure you want to delete this comment?"
                                 class="text-red-600 hover:text-red-800 text-sm">
                             Delete
@@ -440,14 +440,14 @@ class CommentItem extends Component
         <h3 class="text-2xl font-bold text-gray-900">
             Comments ({{ $post->approvedComments->count() }})
         </h3>
-        
+
         @auth
-            <button wire:click="toggleCommentForm" 
+            <button wire:click="toggleCommentForm"
                     class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
                 {{ $showCommentForm ? 'Cancel' : 'Add Comment' }}
             </button>
         @else
-            <a href="{{ route('login') }}" 
+            <a href="{{ route('login') }}"
                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
                 Login to Comment
             </a>
@@ -475,23 +475,23 @@ class CommentItem extends Component
                     <label for="newComment" class="block text-sm font-medium text-gray-700 mb-2">
                         Your Comment
                     </label>
-                    <textarea wire:model="newComment" 
+                    <textarea wire:model="newComment"
                               id="newComment"
-                              rows="4" 
+                              rows="4"
                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                               placeholder="Share your thoughts..."></textarea>
-                    @error('newComment') 
-                        <span class="text-red-500 text-sm">{{ $message }}</span> 
+                    @error('newComment')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="flex justify-end space-x-3">
-                    <button type="button" 
+                    <button type="button"
                             wire:click="toggleCommentForm"
                             class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                         Cancel
                     </button>
-                    <button type="submit" 
+                    <button type="submit"
                             class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
                         Post Comment
                     </button>
@@ -553,15 +553,15 @@ class CommentItem extends Component
                 @if(auth()->id() === $comment->user_id || auth()->user()->is_admin)
                     <div class="flex space-x-2">
                         @if(auth()->id() === $comment->user_id && !$isEditing)
-                            <button wire:click="startEditing" 
+                            <button wire:click="startEditing"
                                     class="text-gray-400 hover:text-gray-600">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                             </button>
                         @endif
-                        
-                        <button wire:click="deleteComment" 
+
+                        <button wire:click="deleteComment"
                                 wire:confirm="Are you sure you want to delete this comment?"
                                 class="text-gray-400 hover:text-red-600">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -577,19 +577,19 @@ class CommentItem extends Component
         <div class="mb-3">
             @if($isEditing)
                 <div class="space-y-3">
-                    <textarea wire:model="editContent" 
+                    <textarea wire:model="editContent"
                               rows="3"
                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                    @error('editContent') 
-                        <span class="text-red-500 text-sm">{{ $message }}</span> 
+                    @error('editContent')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
-                    
+
                     <div class="flex justify-end space-x-2">
-                        <button wire:click="cancelEditing" 
+                        <button wire:click="cancelEditing"
                                 class="px-3 py-1 text-sm border border-gray-300 rounded text-gray-700 hover:bg-gray-50">
                             Cancel
                         </button>
-                        <button wire:click="saveEdit" 
+                        <button wire:click="saveEdit"
                                 class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
                             Save
                         </button>
@@ -605,17 +605,17 @@ class CommentItem extends Component
         <!-- Comment Actions -->
         <div class="flex items-center space-x-4 text-sm">
             @auth
-                <button wire:click="replyToComment" 
+                <button wire:click="replyToComment"
                         class="text-blue-600 hover:text-blue-800 font-medium">
                     Reply
                 </button>
             @endauth
 
             @if($comment->approvedReplies->count() > 0)
-                <button wire:click="toggleReplies" 
+                <button wire:click="toggleReplies"
                         class="text-gray-600 hover:text-gray-800 font-medium">
-                    {{ $showReplies ? 'Hide' : 'Show' }} 
-                    {{ $comment->approvedReplies->count() }} 
+                    {{ $showReplies ? 'Hide' : 'Show' }}
+                    {{ $comment->approvedReplies->count() }}
                     {{ Str::plural('reply', $comment->approvedReplies->count()) }}
                 </button>
             @endif
@@ -649,11 +649,11 @@ class CommentItem extends Component
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <article class="bg-white rounded-lg shadow-sm overflow-hidden">
         @if($post->featured_image)
-            <img src="{{ $post->featured_image }}" 
-                 alt="{{ $post->title }}" 
+            <img src="{{ $post->featured_image }}"
+                 alt="{{ $post->title }}"
                  class="w-full h-64 md:h-96 object-cover">
         @endif
-        
+
         <div class="p-8">
             <!-- Post Meta -->
             <div class="flex items-center text-sm text-gray-500 mb-4">
@@ -665,19 +665,19 @@ class CommentItem extends Component
                 <span class="mx-2">•</span>
                 <span>{{ $post->approvedComments->count() }} {{ Str::plural('comment', $post->approvedComments->count()) }}</span>
             </div>
-            
+
             <!-- Post Title -->
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 {{ $post->title }}
             </h1>
-            
+
             <!-- Post Excerpt -->
             @if($post->excerpt)
                 <div class="text-xl text-gray-600 leading-relaxed mb-6 font-medium">
                     {{ $post->excerpt }}
                 </div>
             @endif
-            
+
             <!-- Post Content -->
             <div class="prose prose-lg max-w-none">
                 {!! Str::markdown($post->content) !!}
@@ -720,11 +720,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-    
+
     Route::get('/admin/posts', function () {
         return view('admin.posts.index');
     })->name('admin.posts.index');
-    
+
     Route::get('/admin/comments', function () {
         return view('admin.comments.index');
     })->name('admin.comments.index');
@@ -786,7 +786,7 @@ class CommentForm extends Component
 
         $this->content = '';
         session()->flash('success', 'Comment submitted successfully! It will appear after approval.');
-        
+
         $this->dispatch('comment-submitted');
     }
 
@@ -805,25 +805,25 @@ class CommentForm extends Component
             <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
                 {{ $isReply ? 'Your Reply' : 'Your Comment' }}
             </label>
-            <textarea wire:model="content" 
+            <textarea wire:model="content"
                       id="content"
-                      rows="4" 
+                      rows="4"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="{{ $isReply ? 'Write your reply...' : 'Share your thoughts...' }}"></textarea>
-            @error('content') 
-                <span class="text-red-500 text-sm">{{ $message }}</span> 
+            @error('content')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
         <div class="flex justify-end space-x-3">
             @if($isReply)
-                <button type="button" 
+                <button type="button"
                         wire:click="$dispatch('cancel-reply')"
                         class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
                     Cancel Reply
                 </button>
             @endif
-            <button type="submit" 
+            <button type="submit"
                     class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700">
                 {{ $isReply ? 'Post Reply' : 'Post Comment' }}
             </button>
@@ -845,7 +845,7 @@ php artisan optimize:clear
 php artisan db:seed
 
 # Check Livewire components
-php artisan livewire:list
+php artisan route:list
 ```
 
 ### 2. Manual Testing Checklist
